@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Renewable or Non-renewable?</title>
+<meta name="description" content="IGCSE Environmental Management 0680: a question-led walk-through classifying energy resources as renewable (non-finite) or non-renewable (finite).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a guided reading page. Section chips across the top; each section is the notes (with a diagram) followed by a check card that must be passed before moving on. */
+:root {
+  --bg: #edf2f1; --surface: #ffffff; --sunk: #f5f8f7; --ink: #14262b; --muted: #56696e; --line: #d2dedc;
+  --accent: #1c6676; --accent-ink: #ffffff; --accent-soft: #dcedf0;
+  --good: #1f7449; --good-bg: #e2f2e8; --bad: #b1372e; --bad-bg: #fbe8e5; --hint: #8d600c; --hint-bg: #fbf0d9;
+  --enz: #c9dfe4; --ren: #1f7449; --non: #b1372e; --enz-line: #1c6676; --sub: #5aa469; --sub-end: #2c6a3a; --inh: #d9534f; --comp: #c0392b; --nonc: #2b5fb8;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e191c; --surface: #162428; --sunk: #12201f; --ink: #e2eceb; --muted: #9bb0b2; --line: #2a3e42;
+    --accent: #63b8c8; --accent-ink: #08181b; --accent-soft: #1b3940;
+    --good: #72d09d; --good-bg: #163226; --bad: #f08d81; --bad-bg: #3b201c; --hint: #e6b85e; --hint-bg: #352a13;
+    --enz: #23474f; --ren: #72d09d; --non: #f08d81; --enz-line: #63b8c8; --sub: #6cc07c; --sub-end: #b5e8bf; --inh: #f07b72; --comp: #f07b72; --nonc: #7fa8f0;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+[hidden] { display: none !important; }
+.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; display: flex; flex-direction: column; gap: 16px; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(26px, 4vw, 34px); letter-spacing: -.01em; }
+h2 { font-size: clamp(22px, 3vw, 27px); }
+h4 { font-size: 17px; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+@media (max-width: 520px) { .card { padding: 15px; } body { font-size: 16px; } }
+
+/* Section chips */
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: thin; }
+.chips button { flex: 0 0 auto; font: inherit; font-size: 13px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px 5px 6px; cursor: pointer; display: flex; gap: 6px; align-items: center; white-space: nowrap; }
+.chips button .n { font-family: var(--font-mono); font-size: 11px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--sunk); border: 1px solid var(--line); }
+.chips button.done .n { background: var(--good); color: var(--surface); border-color: var(--good); }
+.chips button[aria-current="step"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+.chips button[aria-current="step"] .n { background: var(--accent-ink); color: var(--accent); border-color: var(--accent-ink); }
+.chips button:disabled { opacity: .5; cursor: not-allowed; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Notes */
+.notes { display: flex; flex-direction: column; gap: 12px; max-width: 70ch; }
+.notes b { font-weight: 700; }
+ul.bonds { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 2px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 620px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.tile { background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.tile.comp h4 { color: var(--comp); } .tile.nonc h4 { color: var(--nonc); }
+.note { font-size: 14px; color: var(--muted); }
+
+/* Figures */
+.fig { margin: 0; display: flex; flex-direction: column; gap: 8px; align-items: stretch; max-width: 100%; }
+.fig svg { width: 100%; max-width: 640px; height: auto; display: block; margin: 0 auto; }
+
+.fig figcaption { font-size: 14px; color: var(--muted); text-align: center; }
+.enz { fill: var(--enz); stroke: var(--enz-line); stroke-width: 2; }
+.sub { fill: var(--sub); }
+.sub-end { fill: var(--sub-end); }
+.inh { fill: var(--inh); }
+.figbg { fill: var(--surface); }
+.panel { fill: var(--sunk); stroke: var(--line); }
+.lbl { fill: var(--ink); font-family: var(--font-body); font-size: 14px; }
+.small-t { font-size: 12px; }
+.inh-t { fill: var(--inh); font-weight: 700; }
+.cap { fill: var(--muted); font-family: var(--font-body); font-size: 14px; }
+.lead { stroke: var(--muted); stroke-width: 1; }
+.bad-mark line { stroke: var(--bad); stroke-width: 3.5; stroke-linecap: round; }
+.good-mark { fill: none; stroke: var(--good); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.arrow { stroke: var(--muted); stroke-width: 2; }
+.arrow-head { fill: var(--muted); }
+.cone { fill: var(--good); opacity: .35; stroke: var(--good); stroke-width: 1; }
+.axis { stroke: var(--ink); stroke-width: 1.6; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.dash { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 6 5; }
+.guide { fill: none; stroke-width: 1.3; stroke-dasharray: 4 4; }
+.num { fill: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+.axis-t { fill: var(--ink); font-family: var(--font-body); font-size: 14px; }
+.curve .line { fill: none; stroke-width: 3; }
+.curve-t { font-weight: 700; font-size: 14px; }
+.c-normal .line { stroke: var(--ink); } .c-normal .guide { stroke: var(--ink); } .c-normal .curve-t { fill: var(--ink); }
+.c-comp .line { stroke: var(--comp); } .c-comp .guide { stroke: var(--comp); } .c-comp .curve-t { fill: var(--comp); }
+.c-nonc .line { stroke: var(--nonc); } .c-nonc .guide { stroke: var(--nonc); } .c-nonc .curve-t { fill: var(--nonc); }
+#inhib-fig .curve.off { display: none; }
+.toggles { display: flex; gap: 8px; flex-wrap: wrap; }
+.tog { font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.tog.on { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.tog { display: inline-flex; align-items: center; gap: 8px; }
+.tog .sw { width: 18px; height: 4px; border-radius: 2px; display: inline-block; opacity: .35; }
+.tog.on .sw { opacity: 1; }
+.sw-normal { background: var(--ink); } .sw-comp { background: var(--comp); } .sw-nonc { background: var(--nonc); }
+.tog:disabled { cursor: default; }
+.sat-caps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; font-size: 13px; color: var(--muted); }
+.sat-caps b { color: var(--ink); }
+@media (max-width: 560px) { .sat-caps { grid-template-columns: minmax(0, 1fr); } }
+
+
+.sub { color: var(--muted); margin-top: 6px; font-size: 15px; }
+.examtip { background: var(--hint-bg); border-radius: 8px; padding: 10px 14px; font-size: 15px; } .examtip b { color: var(--hint); }
+.tile.ren { border-top: 4px solid var(--ren); } .tile.ren h4 { color: var(--ren); }
+.tile.non { border-top: 4px solid var(--non); } .tile.non h4 { color: var(--non); }
+.tile p { margin: 0; }
+.three, .four { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 560px) { .three, .four { grid-template-columns: minmax(0, 1fr); } }
+.mini { background: var(--sunk); border: 1px solid var(--line); border-left: 4px solid var(--ren); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; font-size: 15px; }
+.mini span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+.tblwrap { overflow-x: auto; }
+table.st { border-collapse: collapse; width: 100%; font-size: 15px; color: var(--ink); }
+table.st th, table.st td { padding: 8px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; line-height: 1.7; }
+table.sort th:first-child { color: var(--ren); } table.sort th:last-child { color: var(--non); }
+
+/* Check card */
+.check { border-top: 4px solid var(--accent); }
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.stage { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+.stage.backup { background: var(--hint-bg); color: var(--hint); }
+.stage.retry { background: var(--accent); color: var(--accent-ink); }
+.trail { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.trail b { font-weight: 500; padding: 2px 7px; border-radius: 5px; border: 1px solid var(--line); }
+.trail b.done { background: var(--sunk); border-color: transparent; text-decoration: line-through; }
+.trail b.on { border-color: var(--hint); color: var(--hint); }
+.stem { font-size: 18px; font-weight: 700; max-width: 66ch; }
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; }
+.opt:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.opt:disabled { cursor: default; }
+.opt .k { width: 30px; height: 30px; border-radius: 6px; display: grid; place-items: center; font-family: var(--font-mono); background: var(--sunk); border: 1px solid var(--line); }
+.opt .mark { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+.opt.right { border-color: var(--good); background: var(--good-bg); } .opt.right .k { background: var(--good); color: var(--surface); border-color: var(--good); } .opt.right .mark { color: var(--good); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-bg); } .opt.wrong .k { background: var(--bad); color: var(--surface); border-color: var(--bad); } .opt.wrong .mark { color: var(--bad); }
+.opt.dim { opacity: .55; }
+.log { display: flex; flex-direction: column; gap: 8px; }
+.msg { border-radius: 8px; padding: 11px 14px; }
+.msg h3 { font-family: var(--font-body); font-size: 15px; margin: 0 0 3px; }
+.msg.good { background: var(--good-bg); } .msg.good h3 { color: var(--good); }
+.msg.bad { background: var(--bad-bg); } .msg.bad h3 { color: var(--bad); }
+.msg.hint { background: var(--hint-bg); } .msg.hint h3 { color: var(--hint); }
+.btn { font: inherit; font-weight: 700; border: 0; border-radius: 8px; padding: 11px 20px; cursor: pointer; background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+.btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.passed { display: flex; flex-direction: column; gap: 6px; }
+.passed div { display: flex; gap: 10px; align-items: baseline; font-size: 15px; }
+.tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+.tag.first { background: var(--good-bg); color: var(--good); } .tag.help { background: var(--hint-bg); color: var(--hint); } .tag.miss { background: var(--bad-bg); color: var(--bad); }
+.big { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 7vw, 56px); line-height: 1; font-variant-numeric: tabular-nums; }
+.big small { font-size: .45em; color: var(--muted); font-weight: 500; }
+.secs { display: flex; flex-direction: column; gap: 8px; }
+.secs .row { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.linkbtn { font: inherit; font-size: 14px; color: var(--accent); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+ol.keys { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+@media (max-width: 600px) {
+  .fig svg .lbl, .fig svg .cap, .fig svg .axis-t { font-size: 21px; }
+  .fig svg .curve-t { font-size: 20px; }
+  .fig svg .num { font-size: 17px; }
+  .fig svg .small-t { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">IGCSE Environmental Management 0680 · 1.4 Energy resources</div>
+    <h1>Renewable or non-renewable?</h1>
+    <p class="sub">Answer the questions to move through the sections. Get one wrong and you will get two help questions, then a second try.</p>
+  </header>
+  <nav class="chips" id="chips" aria-label="Sections"></nav>
+  <main id="main" style="display:flex;flex-direction:column;gap:16px"></main>
+</div>
+<script>
+/* ===== Walk-through content: renewable and non-renewable energy resources (IGCSE 0680) ===== */
+const SECTIONS = [
+ {
+  "id": "s1",
+  "title": "Renewable or non-renewable?",
+  "teach": "\n<div class=\"two\">\n  <div class=\"tile ren\"><h4>Renewable = non-finite</h4><p>Replaced naturally in a short time, so it will <b>not run out</b> on a human timescale.</p></div>\n  <div class=\"tile non\"><h4>Non-renewable = finite</h4><p>There is a <b>limited amount</b>. It cannot be replaced quickly, so it <b>will run out</b>.</p></div>\n</div>\n<p class=\"examtip\"><b>The test:</b> will we run out of it if we keep using it? Yes → non-renewable. No → renewable.</p>",
+  "checks": [
+   {
+    "q": "What does 'finite' mean?",
+    "o": [
+     "There is a limited amount, so it will run out",
+     "It can be replaced naturally within a short time",
+     "It does not release any carbon dioxide",
+     "It is only found in a few countries"
+    ],
+    "a": 0,
+    "w": {
+     "1": "That describes a renewable (non-finite) resource.",
+     "2": "Finite is about the amount available, not pollution.",
+     "3": "Where it is found doesn't matter. Finite means a limited amount."
+    },
+    "x": "Finite = limited. A finite resource will run out, so it is non-renewable.",
+    "b": [
+     {
+      "q": "Which word means the same as 'renewable'?",
+      "o": [
+       "Non-finite",
+       "Finite",
+       "Fossil",
+       "Limited"
+      ],
+      "a": 0,
+      "x": "Renewable = non-finite: it will not run out."
+     },
+     {
+      "q": "A resource that will eventually run out is…",
+      "o": [
+       "non-renewable",
+       "renewable",
+       "non-finite",
+       "sustainable"
+      ],
+      "a": 0,
+      "x": "If it will run out, it is non-renewable (finite)."
+     }
+    ],
+    "id": "c1"
+   },
+   {
+    "q": "Which statement describes a renewable energy resource?",
+    "o": [
+     "It is replaced naturally as fast as we use it",
+     "It formed over millions of years, deep underground",
+     "It has to be mined from rocks in the ground",
+     "It will run out if we keep on using it"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Forming over millions of years is a sign of a non-renewable resource, like coal.",
+     "2": "Mined resources such as coal and uranium are finite.",
+     "3": "That is the definition of non-renewable."
+    },
+    "x": "Renewable resources are replaced naturally in a short time, so they will not run out.",
+    "b": [
+     {
+      "q": "Renewable resources will…",
+      "o": [
+       "not run out",
+       "run out soon",
+       "run out in 50 years",
+       "never be used"
+      ],
+      "a": 0,
+      "x": "Renewable = non-finite: they will not run out on a human timescale."
+     },
+     {
+      "q": "Sunlight arrives every day. This means solar power is…",
+      "o": [
+       "renewable",
+       "non-renewable",
+       "finite",
+       "a fossil fuel"
+      ],
+      "a": 0,
+      "x": "The Sun keeps shining, so solar power will not run out."
+     }
+    ],
+    "id": "c2"
+   },
+   {
+    "q": "A country keeps using an energy resource. After 100 years there is none left. The resource was…",
+    "o": [
+     "non-renewable (finite)",
+     "renewable (non-finite)",
+     "a biofuel",
+     "solar power"
+    ],
+    "a": 0,
+    "w": {
+     "1": "A renewable resource would not run out.",
+     "2": "Biofuels can be regrown, so they don't run out.",
+     "3": "Sunlight doesn't run out."
+    },
+    "x": "It ran out, so it was finite: a non-renewable resource.",
+    "b": [
+     {
+      "q": "Which of these can run out?",
+      "o": [
+       "Coal",
+       "Wind",
+       "Sunlight",
+       "Waves"
+      ],
+      "a": 0,
+      "x": "Coal is a fossil fuel. Wind, sunlight and waves keep coming."
+     },
+     {
+      "q": "What is the test for a non-renewable resource?",
+      "o": [
+       "It will run out if we keep using it",
+       "It comes from the Sun",
+       "It is mainly used to make electricity in power stations",
+       "It is a liquid"
+      ],
+      "a": 0,
+      "x": "If it will run out, it is non-renewable."
+     }
+    ],
+    "id": "c3"
+   }
+  ]
+ },
+ {
+  "id": "s2",
+  "title": "Biofuels",
+  "teach": "\n<p><b>Biofuels</b> are fuels made from <b>living or recently living</b> material. New crops and trees can be grown quickly, so biofuels are <b>renewable</b>.</p>\n<div class=\"four\">\n  <div class=\"mini\"><b>Bioethanol</b><span>alcohol made by fermenting crops such as sugarcane or maize</span></div>\n  <div class=\"mini\"><b>Biomass</b><span>plant or animal material burned as fuel, e.g. bagasse from sugarcane in Mauritius</span></div>\n  <div class=\"mini\"><b>Biogas</b><span>gas (mainly methane) from rotting organic waste</span></div>\n  <div class=\"mini\"><b>Wood</b><span>logs or pellets, renewable if new trees are planted</span></div>\n</div>",
+  "checks": [
+   {
+    "q": "Why are biofuels classed as renewable?",
+    "o": [
+     "The plants they come from can be regrown quickly",
+     "They release no carbon dioxide at all when they are burned",
+     "They formed millions of years ago underground",
+     "They come from rocks deep under the ground"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Burning biofuels does release carbon dioxide. They are renewable because the source can be regrown.",
+     "2": "That describes fossil fuels, which are non-renewable.",
+     "3": "Biofuels come from living or recently living material, not rocks."
+    },
+    "x": "Crops and trees can be grown again in months or years, so the supply does not run out.",
+    "b": [
+     {
+      "q": "Biofuels are made from…",
+      "o": [
+       "living or recently living material",
+       "ancient remains buried underground",
+       "uranium mined from rocks",
+       "heat deep inside the Earth"
+      ],
+      "a": 0,
+      "x": "Biofuels come from recently living things such as crops, wood and waste."
+     },
+     {
+      "q": "How long does it take to grow a new crop of sugarcane?",
+      "o": [
+       "About a year",
+       "About a million years",
+       "It can never be regrown",
+       "About 10,000 years"
+      ],
+      "a": 0,
+      "x": "Sugarcane is harvested about once a year, so it is quickly replaced."
+     }
+    ],
+    "id": "c4"
+   },
+   {
+    "q": "Mauritian sugar factories burn bagasse (the waste left after crushing sugarcane) to make electricity. Bagasse is an example of…",
+    "o": [
+     "biomass",
+     "a fossil fuel",
+     "geothermal power",
+     "nuclear fuel"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Fossil fuels formed millions of years ago. Bagasse comes from this year's crop.",
+     "2": "Geothermal power uses heat from underground rocks.",
+     "3": "Nuclear fuel is uranium, mined from rocks."
+    },
+    "x": "Bagasse is plant material burned as fuel: biomass, a renewable biofuel.",
+    "b": [
+     {
+      "q": "What is biomass?",
+      "o": [
+       "Plant or animal material burned as fuel",
+       "Gas made deep under the seabed",
+       "Heat from hot rocks underground",
+       "A type of coal that contains lots of carbon"
+      ],
+      "a": 0,
+      "x": "Biomass is plant or animal material, such as wood or crop waste, burned as fuel."
+     },
+     {
+      "q": "Which of these is biomass?",
+      "o": [
+       "Dried crop waste",
+       "Crude oil",
+       "Uranium",
+       "Coal"
+      ],
+      "a": 0,
+      "x": "Dried crop waste is recently living plant material."
+     }
+    ],
+    "id": "c5"
+   },
+   {
+    "q": "Biogas and natural gas are both mainly methane. Which statement is correct?",
+    "o": [
+     "Biogas is renewable; natural gas is non-renewable",
+     "Both are non-renewable fossil fuels",
+     "Both are renewable because they are gases",
+     "Natural gas is renewable; biogas is non-renewable"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Biogas is made from waste rotting today, so it is renewable.",
+     "2": "Being a gas doesn't decide it. Natural gas formed over millions of years, so it is finite.",
+     "3": "It is the other way round."
+    },
+    "x": "Biogas is made from rotting waste in weeks, so it is renewable. Natural gas is a fossil fuel, so it is non-renewable.",
+    "b": [
+     {
+      "q": "Biogas is made from…",
+      "o": [
+       "rotting organic waste",
+       "rocks under the seabed",
+       "uranium",
+       "sea water"
+      ],
+      "a": 0,
+      "x": "Bacteria break down waste such as manure or food scraps, giving off biogas."
+     },
+     {
+      "q": "Natural gas is a…",
+      "o": [
+       "fossil fuel",
+       "biofuel",
+       "type of biomass",
+       "renewable gas"
+      ],
+      "a": 0,
+      "x": "Natural gas formed from ancient plankton over millions of years: a fossil fuel."
+     }
+    ],
+    "id": "c6"
+   },
+   {
+    "q": "Bioethanol is made by…",
+    "o": [
+     "fermenting crops such as sugarcane or maize",
+     "splitting uranium atoms inside a nuclear reactor",
+     "drilling into rocks under the seabed",
+     "pumping water down into hot rocks"
+    ],
+    "a": 0,
+    "w": {
+     "1": "That is nuclear power.",
+     "2": "That is how oil and natural gas are extracted.",
+     "3": "That is geothermal power."
+    },
+    "x": "Bioethanol is an alcohol fuel made by fermenting sugary crops. It is a renewable biofuel.",
+    "b": [
+     {
+      "q": "Bioethanol is a type of…",
+      "o": [
+       "alcohol fuel",
+       "coal",
+       "natural gas",
+       "metal ore"
+      ],
+      "a": 0,
+      "x": "Bioethanol is an alcohol, made by fermentation."
+     },
+     {
+      "q": "Which crop is grown in Mauritius and can be used to make bioethanol?",
+      "o": [
+       "Sugarcane",
+       "Rice",
+       "Cotton",
+       "Tea"
+      ],
+      "a": 0,
+      "x": "Sugarcane (and its molasses) can be fermented to make bioethanol."
+     }
+    ],
+    "id": "c7"
+   }
+  ]
+ },
+ {
+  "id": "s3",
+  "title": "Energy from moving water",
+  "teach": "\n<div class=\"three\">\n  <div class=\"mini\"><b>Hydro-electric power</b><span>water flowing from a dam on a river (e.g. Tamarind Falls, Mauritius)</span></div>\n  <div class=\"mini\"><b>Tidal power</b><span>the rise and fall of the tides, twice a day</span></div>\n  <div class=\"mini\"><b>Wave power</b><span>the up-and-down movement of waves at the sea surface</span></div>\n</div>\n<p>Rain keeps refilling rivers, and the tides and waves never stop, so all three are <b>renewable</b>.</p>",
+  "checks": [
+   {
+    "q": "Which resource uses the rise and fall of the sea level each day?",
+    "o": [
+     "Tidal power",
+     "Wave power",
+     "Hydro-electric power",
+     "Geothermal power"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Wave power uses the up-and-down movement of waves, not the change in sea level.",
+     "2": "Hydro-electric power uses water from a river and dam.",
+     "3": "Geothermal uses heat from rocks underground."
+    },
+    "x": "The tide rises and falls twice a day. Tidal power uses that movement of water.",
+    "b": [
+     {
+      "q": "How often does the tide come in and go out?",
+      "o": [
+       "About twice a day",
+       "Once a year",
+       "Once a month",
+       "Only in storms"
+      ],
+      "a": 0,
+      "x": "There are usually two high tides and two low tides each day."
+     },
+     {
+      "q": "A tidal power station is usually built…",
+      "o": [
+       "across an estuary or bay",
+       "on top of a mountain",
+       "deep in a desert",
+       "deep inside an old coal mine"
+      ],
+      "a": 0,
+      "x": "Tidal barrages are built across estuaries or bays where the tide flows in and out."
+     }
+    ],
+    "id": "c8"
+   },
+   {
+    "q": "Why is hydro-electric power renewable?",
+    "o": [
+     "Rain keeps refilling the rivers and reservoirs",
+     "The dam stores the water for millions of years",
+     "It uses uranium to make the water move",
+     "The water is burned to make the steam"
+    ],
+    "a": 0,
+    "w": {
+     "1": "The point is that the water is replaced by rain, not stored for ever.",
+     "2": "No uranium is used. Gravity moves the water.",
+     "3": "Water isn't burned. Moving water turns the turbines."
+    },
+    "x": "The water cycle keeps refilling rivers with rain, so the resource does not run out.",
+    "b": [
+     {
+      "q": "What does a hydro-electric station need?",
+      "o": [
+       "Water flowing from a dam",
+       "Hot rocks underground",
+       "Strong sunlight all day long",
+       "Burning coal"
+      ],
+      "a": 0,
+      "x": "Water released from a reservoir behind a dam turns the turbines."
+     },
+     {
+      "q": "Which process refills rivers and reservoirs?",
+      "o": [
+       "The water cycle (rain)",
+       "Photosynthesis",
+       "Nuclear fission",
+       "Decomposition"
+      ],
+      "a": 0,
+      "x": "Evaporation, condensation and rain keep supplying river water."
+     }
+    ],
+    "id": "c9"
+   },
+   {
+    "q": "Wave power and tidal power are both…",
+    "o": [
+     "renewable resources using moving sea water",
+     "non-renewable because the sea will one day run out",
+     "biofuels made from sea plants",
+     "fossil fuels found under the sea"
+    ],
+    "a": 0,
+    "w": {
+     "1": "The waves and tides do not get used up, so they are not finite.",
+     "2": "No plants are involved. They use the movement of the water.",
+     "3": "Fossil fuels found under the sea are oil and gas, which are burned."
+    },
+    "x": "Both use moving sea water, which never stops, so both are renewable.",
+    "b": [
+     {
+      "q": "What makes waves at the sea surface?",
+      "o": [
+       "Wind blowing over the water",
+       "Hot rocks deep under the seabed",
+       "Burning oil",
+       "Rotting seaweed"
+      ],
+      "a": 0,
+      "x": "Wind blowing over the sea makes waves."
+     },
+     {
+      "q": "Will we run out of waves?",
+      "o": [
+       "No, they keep coming",
+       "Yes, in about 50 years",
+       "Yes, once they are used",
+       "Only in winter"
+      ],
+      "a": 0,
+      "x": "Waves keep forming as long as the wind blows, so wave power is renewable."
+     }
+    ],
+    "id": "c10"
+   }
+  ]
+ },
+ {
+  "id": "s4",
+  "title": "Sun, wind and Earth's heat",
+  "teach": "\n<div class=\"three\">\n  <div class=\"mini\"><b>Solar power</b><span>energy from sunlight, using solar panels (PV cells) or mirrors</span></div>\n  <div class=\"mini\"><b>Wind power</b><span>moving air turns the blades of wind turbines, on land or at sea</span></div>\n  <div class=\"mini\"><b>Geothermal power</b><span>heat from hot rocks deep underground</span></div>\n</div>\n<p>The Sun keeps shining, the wind keeps blowing and the inside of the Earth stays hot, so all three are <b>renewable</b>.</p>",
+  "checks": [
+   {
+    "q": "Which renewable resource uses heat from hot rocks underground?",
+    "o": [
+     "Geothermal power",
+     "Solar power",
+     "Nuclear power",
+     "Biomass"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Solar power uses sunlight, not underground heat.",
+     "2": "Nuclear power uses uranium, and is non-renewable.",
+     "3": "Biomass is plant or animal material that is burned."
+    },
+    "x": "Geothermal power uses heat from rocks deep underground to heat water.",
+    "b": [
+     {
+      "q": "The word 'geo' means…",
+      "o": [
+       "Earth",
+       "sun",
+       "water",
+       "air"
+      ],
+      "a": 0,
+      "x": "Geo = Earth, thermal = heat. Geothermal = heat from the Earth."
+     },
+     {
+      "q": "Why does geothermal power not run out?",
+      "o": [
+       "The Earth's interior stays hot",
+       "Rocks are burned and then regrown",
+       "Uranium is added to the rocks",
+       "Rain heats up the rocks"
+      ],
+      "a": 0,
+      "x": "Heat keeps flowing from the Earth's hot interior, so geothermal is renewable."
+     }
+    ],
+    "id": "c11"
+   },
+   {
+    "q": "Solar panels on roofs in Mauritius use…",
+    "o": [
+     "energy from sunlight",
+     "heat from the ground",
+     "the movement of the air",
+     "burning wood pellets"
+    ],
+    "a": 0,
+    "w": {
+     "1": "That is geothermal power.",
+     "2": "That is wind power.",
+     "3": "That is a biofuel."
+    },
+    "x": "Solar panels (photovoltaic cells) change light energy from the Sun into electricity.",
+    "b": [
+     {
+      "q": "Solar panels are also called…",
+      "o": [
+       "photovoltaic (PV) cells",
+       "wind turbines on the roof",
+       "tidal barrages",
+       "fuel rods"
+      ],
+      "a": 0,
+      "x": "PV cells change light directly into electricity."
+     },
+     {
+      "q": "Solar power is renewable because…",
+      "o": [
+       "the Sun keeps shining",
+       "the panels last for ever",
+       "it uses no land",
+       "it works at night"
+      ],
+      "a": 0,
+      "x": "Sunlight arrives every day, so it will not run out."
+     }
+    ],
+    "id": "c12"
+   },
+   {
+    "q": "Which statement about wind power is correct?",
+    "o": [
+     "It is renewable because the wind keeps blowing",
+     "It is non-renewable because the wind can stop blowing",
+     "It is a biofuel because it uses air",
+     "It is finite because turbines wear out"
+    ],
+    "a": 0,
+    "w": {
+     "1": "The wind may drop on some days, but it never runs out.",
+     "2": "Biofuels are made from living material. Wind is moving air.",
+     "3": "Machines wearing out doesn't make the resource finite. The wind itself doesn't run out."
+    },
+    "x": "The wind keeps blowing, so wind power is renewable, even if it varies from day to day.",
+    "b": [
+     {
+      "q": "What turns the blades of a wind turbine?",
+      "o": [
+       "Moving air",
+       "Steam",
+       "Falling water",
+       "Sunlight"
+      ],
+      "a": 0,
+      "x": "Wind (moving air) pushes the blades round."
+     },
+     {
+      "q": "Wind turbines can be built…",
+      "o": [
+       "on land or at sea",
+       "only underground",
+       "only inside cities",
+       "only in deserts"
+      ],
+      "a": 0,
+      "x": "On-shore turbines are on land; off-shore turbines are in the sea."
+     }
+    ],
+    "id": "c13"
+   }
+  ]
+ },
+ {
+  "id": "s5",
+  "title": "The non-renewables",
+  "teach": "\n<div class=\"two\">\n  <div class=\"tile non\"><h4>Fossil fuels</h4><p>Coal, oil and natural gas. They took <b>millions of years</b> to form, so we use them far faster than they can be replaced.</p></div>\n  <div class=\"tile non\"><h4>Nuclear power</h4><p>Uses <b>uranium</b>, a metal mined from rocks. There is a limited amount, so it will run out.</p></div>\n</div>\n<p class=\"examtip\"><b>Careful:</b> nuclear power gives out very little carbon dioxide, but that does <b>not</b> make it renewable. Uranium is finite.</p>",
+  "checks": [
+   {
+    "q": "Why is nuclear power classed as non-renewable?",
+    "o": [
+     "It uses uranium, which is finite",
+     "It releases lots of carbon dioxide",
+     "It uses coal to heat the water",
+     "It only works during the daytime"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Nuclear power releases very little CO₂. It is non-renewable because uranium will run out.",
+     "2": "Nuclear power stations use uranium, not coal.",
+     "3": "Nuclear power works day and night. That isn't the reason."
+    },
+    "x": "Uranium is mined from rocks and there is only a limited amount, so nuclear power is finite.",
+    "b": [
+     {
+      "q": "What fuel does a nuclear power station use?",
+      "o": [
+       "Uranium",
+       "Coal",
+       "Wood",
+       "Biogas"
+      ],
+      "a": 0,
+      "x": "Nuclear power stations use uranium fuel rods."
+     },
+     {
+      "q": "Where does uranium come from?",
+      "o": [
+       "It is mined from rocks",
+       "It is grown on special farms",
+       "It is made from waste",
+       "It falls as rain"
+      ],
+      "a": 0,
+      "x": "Uranium is a metal ore, mined from the ground. Once used, it is gone."
+     }
+    ],
+    "id": "c14"
+   },
+   {
+    "q": "Coal, oil and natural gas are non-renewable because…",
+    "o": [
+     "they take millions of years to form",
+     "they are all found deep under the ground",
+     "they can only be used once",
+     "they are used to make electricity"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Being underground is not the reason. Geothermal heat comes from underground but is renewable.",
+     "2": "Every fuel can only be burned once, including wood. The point is how long they take to replace.",
+     "3": "Renewables make electricity too."
+    },
+    "x": "We use fossil fuels far faster than the millions of years it takes them to form, so they will run out.",
+    "b": [
+     {
+      "q": "Fossil fuels formed from…",
+      "o": [
+       "ancient plants and animals",
+       "rocks melted deep inside volcanoes",
+       "uranium atoms",
+       "sunlight and air"
+      ],
+      "a": 0,
+      "x": "Fossil fuels formed from organisms that died millions of years ago."
+     },
+     {
+      "q": "Which is a fossil fuel?",
+      "o": [
+       "Natural gas",
+       "Biogas",
+       "Wood",
+       "Bioethanol"
+      ],
+      "a": 0,
+      "x": "Natural gas formed over millions of years. The others are biofuels."
+     }
+    ],
+    "id": "c15"
+   },
+   {
+    "q": "A student says: 'Nuclear power is renewable because it does not produce much carbon dioxide.' What is wrong?",
+    "o": [
+     "Renewable means it won't run out, and uranium will",
+     "Nuclear power produces more carbon dioxide than coal",
+     "Nuclear power is a fossil fuel made from coal",
+     "Nothing: nuclear power is renewable"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Nuclear power stations release very little CO₂. The mistake is mixing up 'low-carbon' and 'renewable'.",
+     "2": "Nuclear power uses uranium, not coal. It is not a fossil fuel.",
+     "3": "Uranium is finite, so nuclear power is non-renewable."
+    },
+    "x": "Renewable is about whether the resource runs out, not about pollution. Uranium is finite.",
+    "b": [
+     {
+      "q": "'Renewable' is about…",
+      "o": [
+       "whether a resource will run out",
+       "how much pollution it makes when used",
+       "how cheap it is",
+       "how big the power station is"
+      ],
+      "a": 0,
+      "x": "Renewable means non-finite: it won't run out."
+     },
+     {
+      "q": "Which resource is low in carbon dioxide but still non-renewable?",
+      "o": [
+       "Nuclear power",
+       "Coal",
+       "Solar power",
+       "Wind power"
+      ],
+      "a": 0,
+      "x": "Nuclear releases little CO₂ but uses finite uranium."
+     }
+    ],
+    "id": "c16"
+   }
+  ]
+ },
+ {
+  "id": "s6",
+  "title": "Sort them all",
+  "teach": "\n<p>Time to put it all together. Use the table if you get stuck.</p>\n<div class=\"tblwrap\"><table class=\"st sort\"><thead><tr><th>Renewable (non-finite)</th><th>Non-renewable (finite)</th></tr></thead>\n<tbody><tr><td>Biofuels: bioethanol, biomass, biogas, wood<br>Geothermal power<br>Hydro-electric power<br>Tidal power<br>Wave power<br>Solar power<br>Wind power</td><td>Fossil fuels: coal, oil, natural gas<br>Nuclear power (uranium)</td></tr></tbody></table></div>",
+  "checks": [
+   {
+    "q": "Which list contains only renewable energy resources?",
+    "o": [
+     "wind, tidal, biogas",
+     "solar, coal, wave",
+     "geothermal, nuclear, wind",
+     "oil, wood, hydro-electric"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Coal is a fossil fuel, so it is non-renewable.",
+     "2": "Nuclear power uses finite uranium.",
+     "3": "Oil is a fossil fuel, so it is non-renewable."
+    },
+    "x": "Wind, tidal and biogas are all renewable.",
+    "b": [
+     {
+      "q": "Which of these is renewable?",
+      "o": [
+       "Biogas",
+       "Coal",
+       "Uranium",
+       "Crude oil"
+      ],
+      "a": 0,
+      "x": "Biogas is made from waste rotting today."
+     },
+     {
+      "q": "Which of these is non-renewable?",
+      "o": [
+       "Uranium",
+       "Wind",
+       "Waves",
+       "Wood"
+      ],
+      "a": 0,
+      "x": "Uranium is mined and finite."
+     }
+    ],
+    "id": "c17"
+   },
+   {
+    "q": "Which is the odd one out?",
+    "o": [
+     "Natural gas",
+     "Biogas",
+     "Bioethanol",
+     "Wood"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Biogas is a renewable biofuel.",
+     "2": "Bioethanol is a renewable biofuel.",
+     "3": "Wood is a renewable biofuel."
+    },
+    "x": "Natural gas is the only non-renewable (fossil fuel). The others are renewable biofuels.",
+    "b": [
+     {
+      "q": "Which three are all biofuels?",
+      "o": [
+       "Biogas, bioethanol, wood",
+       "Biogas, coal, wood",
+       "Bioethanol, oil, wood",
+       "Uranium, biogas, wood"
+      ],
+      "a": 0,
+      "x": "Biogas, bioethanol and wood all come from recently living material."
+     },
+     {
+      "q": "Natural gas is…",
+      "o": [
+       "a fossil fuel",
+       "a biofuel",
+       "made from waste",
+       "renewable"
+      ],
+      "a": 0,
+      "x": "Natural gas formed over millions of years."
+     }
+    ],
+    "id": "c18"
+   },
+   {
+    "q": "How many of these are non-renewable? coal · wave · uranium · biomass · oil · geothermal",
+    "fixed": true,
+    "o": [
+     "One",
+     "Two",
+     "Three",
+     "Four"
+    ],
+    "a": 2,
+    "w": {
+     "0": "Count again: coal, uranium and oil are all finite.",
+     "1": "Count again: coal, uranium and oil are all finite.",
+     "3": "Wave, biomass and geothermal are renewable."
+    },
+    "x": "Three: coal, uranium (nuclear) and oil. Wave, biomass and geothermal are renewable.",
+    "b": [
+     {
+      "q": "Is uranium renewable or non-renewable?",
+      "o": [
+       "Non-renewable",
+       "Renewable"
+      ],
+      "a": 0,
+      "x": "Uranium is mined and finite."
+     },
+     {
+      "q": "Is biomass renewable or non-renewable?",
+      "o": [
+       "Renewable",
+       "Non-renewable"
+      ],
+      "a": 0,
+      "x": "Biomass comes from plants that can be regrown."
+     }
+    ],
+    "id": "c19"
+   },
+   {
+    "q": "Mauritius gets most of its electricity from coal and fuel oil, but it is building more solar farms and using more bagasse. How does this change its energy?",
+    "o": [
+     "It uses more renewable, non-finite resources",
+     "It uses more finite resources that will run out",
+     "It replaces fossil fuels with nuclear power",
+     "It makes no difference to the type of resource"
+    ],
+    "a": 0,
+    "w": {
+     "1": "Solar and bagasse are renewable. Coal and fuel oil are the finite ones.",
+     "2": "Solar and bagasse are not nuclear. Nuclear uses uranium.",
+     "3": "Swapping fossil fuels for solar and bagasse changes finite resources for renewable ones."
+    },
+    "x": "Solar power and bagasse (biomass) are renewable, so Mauritius relies less on finite fossil fuels.",
+    "b": [
+     {
+      "q": "Bagasse is…",
+      "o": [
+       "renewable biomass",
+       "a fossil fuel",
+       "nuclear fuel",
+       "a type of brown coal"
+      ],
+      "a": 0,
+      "x": "Bagasse is sugarcane waste: plant material regrown every year."
+     },
+     {
+      "q": "Coal and fuel oil are…",
+      "o": [
+       "non-renewable",
+       "renewable",
+       "biofuels",
+       "non-finite"
+      ],
+      "a": 0,
+      "x": "Both are fossil fuels: finite."
+     }
+    ],
+    "id": "c20"
+   }
+  ]
+ }
+];
+const SUMMARY = [
+ "Renewable (non-finite) resources are replaced naturally and will not run out. Non-renewable (finite) resources exist in limited amounts and will run out.",
+ "Biofuels are renewable: bioethanol, biomass (e.g. bagasse), biogas and wood, because crops and trees can be regrown quickly.",
+ "Hydro-electric, tidal and wave power use moving water. They are renewable.",
+ "Solar, wind and geothermal power use sunlight, moving air and heat from the Earth. They are renewable.",
+ "Fossil fuels (coal, oil, natural gas) and nuclear power (uranium) are non-renewable.",
+ "Renewable means 'won't run out', not 'no pollution': nuclear is low-carbon but finite; biofuels release CO₂ but are renewable."
+];
+
+const F = {};
+/* ===== Walk-through engine ===== */
+const KEY = "igcse-em-renewable-classify-v1";
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const LET = "ABCD";
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+const CHECKS = SECTIONS.flatMap(s => s.checks);
+
+let P = { sec: 0, res: {} };           // saved progress
+try { const raw = localStorage.getItem(KEY); if (raw) P = Object.assign(P, JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} };
+
+/* Balanced answer positions: each letter is correct equally often, never 3 times running. */
+const bags = { main: [], back: [] }, hist = { main: [], back: [] };
+function deal(name, n, allowed) {
+  const bag = bags[name], h = hist[name];
+  const ok = t => t < n && (!allowed || allowed.includes(t)) && !(h.length >= 2 && h[h.length - 1] === t && h[h.length - 2] === t);
+  let k = -1;
+  for (let tries = 0; tries < 3 && k < 0; tries++) { for (let j = bag.length - 1; j >= 0; j--) if (ok(bag[j])) { k = j; break; } if (k < 0) bag.unshift(...shuffle([0, 1, 2, 3])); }
+  const t = k >= 0 ? bag.splice(k, 1)[0] : (allowed ? allowed[0] : 0); h.push(t); return t;
+}
+function orderFor(n, correct, t, fixed) {
+  const idx = [...Array(n).keys()];
+  if (fixed) { const desc = idx.slice().reverse(); if (n - 1 - correct === t) return desc; if (correct === t) return idx; return Math.random() < .5 ? idx : desc; }
+  const rest = shuffle(idx.filter(i => i !== correct)); rest.splice(t, 0, correct); return rest;
+}
+function order(q, bag) { return orderFor(q.o.length, q.a, deal(bag, q.o.length, q.fixed ? [q.a, q.o.length - 1 - q.a] : null), q.fixed); }
+
+/* Live state of the current check */
+let R = null;
+const sectionDone = i => SECTIONS[i].checks.every(c => P.res[c.id]);
+const unlocked = () => { let i = 0; while (i < SECTIONS.length && sectionDone(i)) i++; return i; }; // first unfinished section
+
+function renderChips() {
+  const u = unlocked();
+  $("#chips").innerHTML = SECTIONS.map((s, i) => `<button type="button" data-i="${i}" class="${sectionDone(i) ? "done" : ""}" ${P.sec === i ? 'aria-current="step"' : ""} ${i > u ? "disabled title=\"Finish the earlier sections first\"" : ""}><span class="n">${sectionDone(i) ? "✓" : i + 1}</span>${esc(s.title)}</button>`).join("")
+    + `<button type="button" data-i="end" ${P.sec === "end" ? 'aria-current="step"' : ""} ${u < SECTIONS.length ? "disabled" : ""}><span class="n">★</span>Summary</button>`;
+  $("#chips").querySelectorAll("button").forEach(b => b.addEventListener("click", () => goSection(b.dataset.i === "end" ? "end" : +b.dataset.i)));
+  const cur = $("#chips").querySelector('[aria-current="step"]'); if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
+
+function goSection(i) { P.sec = i; save(); R = null; render(); window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }); }
+
+function fillFigs(html) { return html.replace(/\{\{FIG:(\w+)\}\}/g, (m, k) => F[k] ? F[k]() : ""); }
+
+function render() {
+  renderChips();
+  if (P.sec === "end") return renderEnd();
+  if (P.sec > unlocked()) P.sec = unlocked();
+  const s = SECTIONS[P.sec];
+  const done = s.checks.filter(c => P.res[c.id]);
+  const next = s.checks.find(c => !P.res[c.id]);
+  $("#main").innerHTML = `
+    <section class="card"><div class="eyebrow">Section ${P.sec + 1} of ${SECTIONS.length}</div><h2>${esc(s.title)}</h2><div class="notes">${fillFigs(s.teach)}</div></section>
+    <section class="card check" id="checkcard">
+      ${done.length ? `<div class="passed">${done.map(c => `<div><span class="tag ${P.res[c.id]}">${P.res[c.id] === "first" ? "First try" : P.res[c.id] === "help" ? "After help" : "Revisit"}</span><span>${esc(c.q)}</span></div>`).join("")}</div>` : ""}
+      <div id="qzone"></div>
+    </section>`;
+  wireFig();
+  if (next) startCheck(next);
+  else finishSection();
+}
+
+function wireFig() {
+  const fig = $("#inhib-fig"); if (!fig) return;
+  const show = { normal: true, comp: false, nonc: false };
+  const apply = () => { fig.querySelectorAll("[data-curve]").forEach(g => g.classList.toggle("off", !show[g.dataset.curve])); fig.querySelectorAll(".tog").forEach(b => { b.classList.toggle("on", show[b.dataset.show]); b.setAttribute("aria-pressed", show[b.dataset.show]); }); };
+  fig.querySelectorAll(".tog[data-show]").forEach(b => b.addEventListener("click", () => { if (b.dataset.show !== "normal") { show[b.dataset.show] = !show[b.dataset.show]; apply(); } }));
+  apply();
+}
+
+function startCheck(c) {
+  R = { c, phase: "main", bi: 0, first: null, order: order(c, "main"), bOrder: null };
+  drawQ(); clearLog();
+}
+
+function curQ() { return R.phase === "back" ? R.c.b[R.bi] : R.c; }
+function curOrder() { return R.phase === "back" ? R.bOrder : R.order; }
+
+function drawQ() {
+  const c = R.c, s = SECTIONS[P.sec], q = curQ(), ord = curOrder();
+  const idx = s.checks.indexOf(c) + 1;
+  let label, cls = "";
+  if (R.phase === "main") label = `Check ${idx} of ${s.checks.length}`;
+  else if (R.phase === "back") { label = `Back-up question ${R.bi + 1} of ${c.b.length}`; cls = "backup"; }
+  else { label = `Second try · Check ${idx}`; cls = "retry"; }
+  const trail = R.phase === "main" ? "" : `<div class="trail"><b class="done">Check</b>${c.b.map((_, k) => `<i>→</i><b class="${R.phase === "back" && R.bi === k ? "on" : (R.phase === "retry" || R.bi > k ? "done" : "")}">Back-up ${k + 1}</b>`).join("")}<i>→</i><b class="${R.phase === "retry" ? "on" : ""}">Second try</b></div>`;
+  $("#qzone").innerHTML = `
+    <div class="qhead"><span class="stage ${cls}">${label}</span></div>${trail}
+    ${q.fig ? F[q.fig]() : ""}
+    <p class="stem">${esc(q.q)}</p>
+    <div class="opts" id="opts">${ord.map((oi, pos) => `<button type="button" class="opt" data-oi="${oi}" id="opt-${pos}"><span class="k">${LET[pos]}</span><span>${esc(q.o[oi])}</span><span class="mark"></span></button>`).join("")}</div>
+    <div class="log" id="log" aria-live="polite"></div>
+    <div class="actions" id="actions"></div>`;
+  $("#opts").querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => choose(+b.dataset.oi)));
+}
+function clearLog() { const l = $("#log"); if (l) l.innerHTML = ""; }
+function letter(oi) { return LET[curOrder().indexOf(oi)]; }
+function lock(chosen, correct, reveal) {
+  $("#opts").querySelectorAll(".opt").forEach(b => {
+    const oi = +b.dataset.oi; b.disabled = true;
+    if (oi === chosen && chosen === correct) { b.classList.add("right"); b.querySelector(".mark").textContent = "Correct"; }
+    else if (oi === chosen) { b.classList.add("wrong"); b.querySelector(".mark").textContent = "Your answer"; }
+    else if (oi === correct && reveal) { b.classList.add("right"); b.querySelector(".mark").textContent = "Answer"; }
+    else b.classList.add("dim");
+  });
+}
+function msg(kind, title, text) {
+  const d = document.createElement("div"); d.className = "msg " + kind;
+  d.innerHTML = (title ? `<h3>${esc(title)}</h3>` : "") + `<p>${esc(text)}</p>`;
+  $("#log").appendChild(d);
+}
+function actions(list) {
+  const a = $("#actions"); a.innerHTML = "";
+  list.forEach((it, k) => { const b = document.createElement("button"); b.type = "button"; b.className = "btn" + (it.ghost ? " ghost" : ""); b.textContent = it.label; b.addEventListener("click", it.go); a.appendChild(b); if (k === 0) setTimeout(() => { b.focus({ preventScroll: true }); b.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" }); }, 0); });
+}
+
+function choose(oi) {
+  const c = R.c, q = curQ();
+  if (R.phase === "back") {
+    const ok = oi === q.a; lock(oi, q.a, true);
+    msg(ok ? "good" : "bad", ok ? "Correct" : `The answer is ${letter(q.a)}`, q.x);
+    const last = R.bi === c.b.length - 1;
+    actions([{ label: last ? "Try the check question again" : "Next back-up question", go: () => {
+      if (last) { R.phase = "retry"; const was = R.order.indexOf(c.a); if (c.fixed) { const f = R.order.slice().reverse(); if (f.indexOf(c.a) !== was) R.order = f; } else { const t = shuffle([0, 1, 2, 3].filter(p => p !== was))[0]; R.order = orderFor(4, c.a, t, false); } drawQ(); msg("hint", "Second try", "The options are in a new order, so read them carefully."); }
+      else { R.bi++; R.bOrder = order(c.b[R.bi], "back"); drawQ(); }
+      focusFirst();
+    } }]);
+    return;
+  }
+  const ok = oi === c.a;
+  if (R.phase === "main") {
+    if (ok) { lock(oi, c.a, false); msg("good", "Correct", c.x); record("first"); }
+    else {
+      lock(oi, c.a, false); R.first = oi;
+      msg("bad", `Not quite: ${letter(oi)} isn't right`, c.w[oi] || "That isn't the right answer.");
+      msg("hint", "Let's check the basics", `Answer ${c.b.length} short back-up questions, then try this one again. Re-read the notes above if you need to.`);
+      actions([{ label: "Start the back-up questions", go: () => { R.phase = "back"; R.bi = 0; R.bOrder = order(c.b[0], "back"); drawQ(); focusFirst(); } }]);
+    }
+    return;
+  }
+  lock(oi, c.a, true);
+  if (ok) { msg("good", "Got it on the second try", c.x); record("help"); }
+  else { msg("bad", `Not this time. The answer is ${letter(c.a)}`, (c.w[oi] ? c.w[oi] + " " : "") + c.x); record("miss"); }
+}
+function focusFirst() { const b = $("#opt-0"); if (b) { b.focus({ preventScroll: true }); $("#qzone").scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" }); } }
+
+function record(result) {
+  P.res[R.c.id] = result; save(); renderChips();
+  const s = SECTIONS[P.sec], next = s.checks.find(c => !P.res[c.id]);
+  if (next) actions([{ label: "Next check question", go: () => { render(); setTimeout(() => $("#checkcard").scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" }), 0); } }]);
+  else actions(sectionNav());
+}
+function sectionNav() {
+  const last = P.sec === SECTIONS.length - 1;
+  return [{ label: last ? "See your summary" : `Next section: ${SECTIONS[P.sec + 1].title}`, go: () => goSection(last ? "end" : P.sec + 1) }];
+}
+function finishSection() {
+  const s = SECTIONS[P.sec];
+  $("#qzone").innerHTML = `<p>You've finished this section's checks.</p><div class="actions" id="actions"></div>`;
+  const a = sectionNav().concat([{ label: "Redo this section's questions", ghost: true, go: () => { s.checks.forEach(c => delete P.res[c.id]); save(); render(); } }]);
+  const box = $("#actions");
+  a.forEach(it => { const b = document.createElement("button"); b.type = "button"; b.className = "btn" + (it.ghost ? " ghost" : ""); b.textContent = it.label; b.addEventListener("click", it.go); box.appendChild(b); });
+}
+
+function renderEnd() {
+  const n = CHECKS.length, c = { first: 0, help: 0, miss: 0 };
+  CHECKS.forEach(k => { if (P.res[k.id]) c[P.res[k.id]]++; });
+  const pts = c.first + c.help * 0.5;
+  const fmt = v => (v % 1 ? Math.floor(v) + "½" : String(v));
+  $("#main").innerHTML = `
+    <section class="card"><div class="eyebrow">Summary</div>
+      <div class="big">${fmt(pts)}<small> / ${n} checks</small></div>
+      <p>${c.first} right first time · ${c.help} right after the back-up questions · ${c.miss} to revisit</p>
+      <div class="secs">${SECTIONS.map((s, i) => { const r = s.checks.map(k => P.res[k.id]); const worst = r.includes("miss") ? "miss" : r.includes("help") ? "help" : "first";
+        return `<div class="row"><span><span class="tag ${worst}">${worst === "first" ? "Secure" : worst === "help" ? "Getting there" : "Revisit"}</span> ${esc(s.title)}</span><button type="button" class="linkbtn" data-go="${i}">Go to section</button></div>`; }).join("")}</div>
+    </section>
+    <section class="card"><h2>Key points</h2><ol class="keys">${SUMMARY.map(t => `<li>${esc(t)}</li>`).join("")}</ol>
+      <div class="actions"><button type="button" class="btn ghost" id="restart">Start again from the beginning</button><span id="confirm" class="note"></span></div></section>`;
+  $("#main").querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => goSection(+b.dataset.go)));
+  let armed = false;
+  $("#restart").addEventListener("click", () => {
+    if (!armed) { armed = true; $("#confirm").textContent = "This clears your answers. Click again to confirm."; setTimeout(() => { armed = false; const el = $("#confirm"); if (el) el.textContent = ""; }, 5000); return; }
+    P = { sec: 0, res: {} }; save(); goSection(0);
+  });
+}
+
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || !R) return;
+  const i = "ABCD".indexOf(e.key.toUpperCase()); const j = i >= 0 ? i : "1234".indexOf(e.key);
+  if (j >= 0 && e.key.length === 1) { const b = $("#opt-" + j); if (b && !b.disabled) { e.preventDefault(); b.click(); } }
+});
+
+render();
+
+</script>
+</body>
+</html>
